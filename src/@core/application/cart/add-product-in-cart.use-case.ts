@@ -1,0 +1,15 @@
+import { Cart } from '../../domain/entities/cart';
+import { Product } from '../../domain/entities/product';
+import { CartGateway } from './../../domain/gateways/cart.gateway';
+
+
+export class AddProductInCartUseCase {
+    constructor(private cartGateway: CartGateway) {}
+
+    async execute(product: Product): Promise<Cart> {
+        const cart = await this.cartGateway.get();
+        cart.addProduct(product);
+        this.cartGateway.save(cart);
+        return cart;
+    }
+}
